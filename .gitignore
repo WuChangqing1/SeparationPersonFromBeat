@@ -1,0 +1,67 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Virtual environment
+venv/
+.env
+.venv/
+env/
+
+# Conda
+.python-version
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Sensitive files
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+secrets.yaml
+config.local.yaml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model files (large binary)
+*.pth
+*.pt
+*.onnx
+*.ckpt
+*.safetensors
+models/
+
+# Output
+output/
+temp/
+*.wav.tmp
+
+# Logs
+*.log
+logs/
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
