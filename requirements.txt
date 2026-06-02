@@ -1,0 +1,13 @@
+# Core
+torch>=2.0.0
+torchaudio>=2.0.0
+demucs>=4.0.0
+
+# Audio I/O
+torchvision  # indirect dep, but pinned for CUDA alignment
+
+# Utilities (auto-installed with demucs)
+numpy
+tqdm
+omegaconf
+pyyaml
