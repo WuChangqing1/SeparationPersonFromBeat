@@ -60,6 +60,9 @@ temp/
 *.log
 logs/
 
+# Claude
+.claude/
+
 # Test
 .pytest_cache/
 .coverage

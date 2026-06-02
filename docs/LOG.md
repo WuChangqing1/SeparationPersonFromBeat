@@ -12,7 +12,8 @@
 - 初始化 Git 仓库（main 分支）
 - 创建 .gitignore 和 README.md
 - 创建 GitHub 远程仓库 SeparationPersonFromBeat
-- 确认 conda 环境 `separation` (Python 3.x)
+- 确认 conda 环境 `separation` (Python 3.11.15)
+- 首次提交并推送到 GitHub: `a9c4bc7`
 
 **下次继续**：
 - 调研并选定人声分离模型方案
