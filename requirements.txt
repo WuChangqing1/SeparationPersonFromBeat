@@ -3,8 +3,8 @@ torch>=2.0.0
 torchaudio>=2.0.0
 demucs>=4.0.0
 
-# Audio I/O
-torchvision  # indirect dep, but pinned for CUDA alignment
+# Audio I/O (soundfile 替代 torchcodec，后者在 Windows 上有 DLL 兼容问题)
+soundfile>=0.12
 
 # Utilities (auto-installed with demucs)
 numpy

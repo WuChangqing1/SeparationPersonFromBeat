@@ -10,8 +10,9 @@ from typing import Optional
 
 import torch
 
+import soundfile as sf
+
 from demucs.apply import apply_model, BagOfModels
-from demucs.audio import save_audio
 from demucs.pretrained import get_model_from_args, add_model_flags
 from demucs.separate import load_track
 
@@ -138,28 +139,26 @@ def separate(
     sources = sources + ref.mean()
 
     # --- Save results ---
+    def _save(wav_tensor, path, samplerate):
+        """Save tensor as WAV using soundfile (avoids torchcodec issues)."""
+        audio = wav_tensor.to("cpu").numpy().T  # (channels, samples) -> (samples, channels)
+        sf.write(path, audio, samplerate, subtype="PCM_16")
+
     output_files = []
-    ext = "wav"
-    kwargs = {
-        "samplerate": model.samplerate,
-        "clip": "rescale",
-        "as_float": False,
-        "bits_per_sample": 16,
-    }
 
     if two_stems is None:
         for source, name in zip(sources, model.sources):
-            stem = out / f"{input_path.stem}" / f"{name}.{ext}"
+            stem = out / f"{input_path.stem}" / f"{name}.wav"
             stem.parent.mkdir(parents=True, exist_ok=True)
-            save_audio(source, str(stem), **kwargs)
+            _save(source, str(stem), model.samplerate)
             output_files.append(stem)
             print(f"  Saved: {stem}")
     else:
         sources_list = list(sources)
         idx = model.sources.index(two_stems)
-        stem = out / f"{input_path.stem}" / f"{two_stems}.{ext}"
+        stem = out / f"{input_path.stem}" / f"{two_stems}.wav"
         stem.parent.mkdir(parents=True, exist_ok=True)
-        save_audio(sources_list.pop(idx), str(stem), **kwargs)
+        _save(sources_list.pop(idx), str(stem), model.samplerate)
         output_files.append(stem)
         print(f"  Saved: {stem}")
 
@@ -167,9 +166,9 @@ def separate(
         other = torch.zeros_like(sources_list[0])
         for s in sources_list:
             other += s
-        other_stem = out / f"{input_path.stem}" / f"no_{two_stems}.{ext}"
+        other_stem = out / f"{input_path.stem}" / f"no_{two_stems}.wav"
         other_stem.parent.mkdir(parents=True, exist_ok=True)
-        save_audio(other, str(other_stem), **kwargs)
+        _save(other, str(other_stem), model.samplerate)
         output_files.append(other_stem)
         print(f"  Saved: {other_stem}")
 
